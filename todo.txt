@@ -1,0 +1,49 @@
+Section 1
+    #setup project folder
+        go mod init nama_folder
+        create new folder
+            *models
+            *views
+            *controllers
+            *config
+            *entities
+
+    #Create main.go
+        ##jump inside and copy this scripts
+            package main
+            import (
+                "log"
+                "net/http"
+            )
+
+            func main() {
+                config.ConnectDB()
+                log.Print("server running on port 8080")
+                http.ListenAndServe(":8080", nil)
+
+            }
+    #create file folder config/database.go
+        ##jump inside and copy this scripts
+            package config
+
+            import (
+                "database/sql"
+                "log"
+
+                _ "github.com/go-sql-driver/mysql"
+            )
+
+            var DB *sql.DB
+
+            func ConnectDB() {
+                db, err := sql.Open("mysql", "root:@/go_products")
+                if err != nil {
+                    panic(err)
+                }
+                log.Println("database connected")
+                DB = db
+            }
+
+
+#catatan
+harap membuat sebuah capital case didepan untuk membuat sebuah function di go karena tersebut merupakan aturan dari golang
