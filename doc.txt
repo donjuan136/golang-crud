@@ -1,71 +1,72 @@
-FrontEnd(boostrap)
-backend(Golang)
+Section 1
+    FrontEnd(boostrap)
+    backend(Golang)
 
 
-setup project Golang 
-    go mod init nama_folder
+    setup project Golang 
+        go mod init nama_folder
 
-karena ingin membuat website kita gunakan patter MVC
-buat 3 nama folder yaitu:
-    models
-    views //untuk menampun
-    controllers
-dan buat folder tambahan config dan etities
+    karena ingin membuat website kita gunakan patter MVC
+    buat 3 nama folder yaitu:
+        models
+        views //untuk menampun
+        controllers
+    dan buat folder tambahan config dan etities
 
-dan folder akhir seperti ini 
-    models // untuk komunikasi dengan database
-    views //untuk menampung layout tampilan website
-    controllers //bisnis logic
-    config // configurasi contohnya koneksi dengan database
-    entities //merupakan struct gambaran  dari tabel didatabase (ORM)
+    dan folder akhir seperti ini 
+        models // untuk komunikasi dengan database
+        views //untuk menampung layout tampilan website
+        controllers //bisnis logic
+        config // configurasi contohnya koneksi dengan database
+        entities //merupakan struct gambaran  dari tabel didatabase (ORM)
 
-untuk menjalankanya kita membutuhkan http
-buat sebuah function main yang isinya http dan import http
-	http.ListenAndServe() // method ini membutuhkan 2 paramater yang pertama addressnya yang kedua handlernya
-    variabel nil merupakan variabel kosong tapi bisa dijalankan
-    jump inside and copy this scripts
-        package main
+    untuk menjalankanya kita membutuhkan http
+    buat sebuah function main yang isinya http dan import http
+        http.ListenAndServe() // method ini membutuhkan 2 paramater yang pertama addressnya yang kedua handlernya
+        variabel nil merupakan variabel kosong tapi bisa dijalankan
+        jump inside and copy this scripts
+            package main
+            import (
+                "log"
+                "net/http"
+            )
+
+            func main() {
+                log.Print("server running on port 8080") //berikan informasi tambahan berupa log
+                http.ListenAndServe(":8080", nil)
+
+            }
+
+    #setup koneksi kedatabase
+        buat sebuah file didalam config/database.go
+        karena kita berada didalam config kita buat sebuah package config sesuaikan dengan nama foldernya
+        kemudian kita buat function global
+            func connectDB(){
+
+            }
+        golang membutuhkan driver tambahan karena kita menggunakan mysql kita butuh driver mysql https://github.com/go-sql-driver/mysql
+            go get -u github.com/go-sql-driver/mysql
+
+        kemudian paste kode ini kedalam scripts config/database.go
+        package config
+
         import (
-            "log"
-            "net/http"
+            "database/sql"
+            _ "github.com/go-sql-driver/mysql"
         )
 
-        func main() {
-            log.Print("server running on port 8080") //berikan informasi tambahan berupa log
-            http.ListenAndServe(":8080", nil)
-
-        }
-
-#setup koneksi kedatabase
-    buat sebuah file didalam config/database.go
-    karena kita berada didalam config kita buat sebuah package config sesuaikan dengan nama foldernya
-    kemudian kita buat function global
-        func connectDB(){
-
-        }
-    golang membutuhkan driver tambahan karena kita menggunakan mysql kita butuh driver mysql https://github.com/go-sql-driver/mysql
-        go get -u github.com/go-sql-driver/mysql
-
-    kemudian paste kode ini kedalam scripts config/database.go
-    package config
-
-    import (
-        "database/sql"
-        _ "github.com/go-sql-driver/mysql"
-    )
-
-    func connectDB() {
-        db, err := sql.Open("mysql", "root:@/go_products")
-        if err != nil {
-            panic(err)
-        }
-        }
-            dan dari hasil func Open() mengembalikan 2 nilai yang pertama adalah koneksinya dan yang kedua adalah error
-            kita buat 2 variable yaitu variabel db dan err
-                untuk err bertugas menangkap error kode if err itu akan menangkap jika terjadi error kita hentikan (panic)
-                untuk db kita buat variabel global yang tipenya adalah koneksi var DB *sql.DB
-                lalu variabel global db kita tulis ulang varibale  db kedalam function connectDB dibawah if. jadi variabel db sudah menampung koneksi kedalam database dan bisa kita akses dan komunikasikan dengan melalui variabel db
-                kemudian kita tambahan log  diatas variabel DB agar mengetahui apakah sudah tersambung apa belum
+        func connectDB() {
+            db, err := sql.Open("mysql", "root:@/go_products")
+            if err != nil {
+                panic(err)
+            }
+            }
+                dan dari hasil func Open() mengembalikan 2 nilai yang pertama adalah koneksinya dan yang kedua adalah error
+                kita buat 2 variable yaitu variabel db dan err
+                    untuk err bertugas menangkap error kode if err itu akan menangkap jika terjadi error kita hentikan (panic)
+                    untuk db kita buat variabel global yang tipenya adalah koneksi var DB *sql.DB
+                    lalu variabel global db kita tulis ulang varibale  db kedalam function connectDB dibawah if. jadi variabel db sudah menampung koneksi kedalam database dan bisa kita akses dan komunikasikan dengan melalui variabel db
+                    kemudian kita tambahan log  diatas variabel DB agar mengetahui apakah sudah tersambung apa belum
 
 
 #go command
